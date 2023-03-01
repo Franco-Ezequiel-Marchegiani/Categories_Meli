@@ -7,8 +7,14 @@ import { exportSheet, dateToday, llamadaAPI, pasteGS, savingDataPreguntasYRespue
 dotenv.config({path: "./.env"})
 
 async function AllCategories(){
-    const arrayContenedor   = [];
-    const objetoContenedor  = {};
+    const arrayContenedorTotal   = [];
+    const arrayContenedorCategory1   = [];
+    const arrayContenedorCategory2   = [];
+    const arrayContenedorCategory3   = [];
+    const arrayContenedorCategory4   = [];
+    const arrayContenedorCategory5   = [];
+    const arrayContenedorCategory6   = [];
+    const arrayContenedorCategory7   = [];
 
     const apiCall = await llamadaAPI("get", process.env.ALL_CATEGORIES)
     /* const apiCall = await axios({
@@ -20,7 +26,7 @@ async function AllCategories(){
     const respuestaAPI = apiCall.data
     for (let i = 0; i < respuestaAPI.length; i++) {
 
-        arrayContenedor.push({
+        arrayContenedorCategory1.push({
             categoryID_1: respuestaAPI[i].id,
             categoryName_1: respuestaAPI[i].name
         }) 
@@ -29,15 +35,39 @@ async function AllCategories(){
     /* Acá hacer un for con los id del category padre, para obtener las categorías hijas con el siguiente endpoint:
      https://api.mercadolibre.com/categories/MLA79242
      */
-    for (let i = 0; i < arrayContenedor.length; i++) {
-        const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedor[i].categoryID_1}`)
-        console.log(apiCallCategoryDetail.data.children_categories);
+    //Crear arrays para c/level y dsp concatenar los arrays
+    for (let i = 0; i < arrayContenedorCategory1.length; i++) {
+        const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory1[i].categoryID_1}`)
+        const respuestaData = apiCallCategoryDetail.data.children_categories
+        /* Dentro de este for, tengo que hacer otro for con el largo que devuelve el "children_Categories" 
+        Plasmar la info en arrays separados, y dsp hacer un for con el largo total, y poner toda la data ahí, creando los objetos y todo*/
+        //console.log(respuestaData);
+        for (let indexChikito = 0; indexChikito < respuestaData.length; indexChikito++) {
+            //const element = array[indexChikito];
+            arrayContenedorCategory2.push({
+                categoryID_2: respuestaData[indexChikito]?.id,
+                categoryName_2: respuestaData[indexChikito]?.name,
+                itemsPorCategoria2: respuestaData[indexChikito]?.total_items_in_this_category
+            })
+            
+        }
+    }
+    const largoTotalArray = arrayContenedorCategory1.concat(arrayContenedorCategory2)
+    console.log("Largo total:");
+    console.log(largoTotalArray);
+    for (let i = 0; i < largoTotalArray.length; i++) {
+        arrayContenedorTotal.push({
+            categoryID_1: arrayContenedorCategory1[i]?.categoryID_1,
+            categoryName_1: arrayContenedorCategory1[i]?.categoryName_1,
+            categoryID_2: arrayContenedorCategory2[i]?.categoryID_2,
+            categoryName_2: arrayContenedorCategory2[i]?.categoryName_2,
+            itemsPorCategoria2: arrayContenedorCategory2[i]?.itemsPorCategoria2
+        })
     }
 
-
-    await exportSheet(process.env.GOOGLE_ID,informationTokensStatus,"main",arrayContenedor)
+    await exportSheet(process.env.GOOGLE_ID,informationTokensStatus,"main",arrayContenedorTotal)
     
-    return arrayContenedor;
+    return arrayContenedorTotal;
 }
 
 AllCategories()
