@@ -37,6 +37,7 @@ async function AllCategories(){
      */
     //Crear arrays para c/level y dsp concatenar los arrays
     for (let i = 0; i < arrayContenedorCategory1.length; i++) {
+        console.log("Primera vuelta: N°" + i + "de " + arrayContenedorCategory1.length);
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory1[i].categoryID_1}`)
         const respuestaData = apiCallCategoryDetail.data.children_categories
         /* Dentro de este for, tengo que hacer otro for con el largo que devuelve el "children_Categories" 
@@ -54,6 +55,7 @@ async function AllCategories(){
     }
 
     for (let i = 0; i < arrayContenedorCategory2.length; i++) {
+        console.log("Primera vuelta: N°" + i + "de " + arrayContenedorCategory2.length);
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory2[i].categoryID_2}`)
         const respuestaData = apiCallCategoryDetail?.data?.children_categories
         /* Dentro de este for, tengo que hacer otro for con el largo que devuelve el "children_Categories" 
@@ -71,6 +73,7 @@ async function AllCategories(){
     }
 
     for (let i = 0; i < arrayContenedorCategory3.length; i++) {
+        console.log("Primera vuelta: N°" + i + "de " + arrayContenedorCategory3.length);
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory3[i].categoryID_3}`)
         const respuestaData = apiCallCategoryDetail?.data?.children_categories
         /* Dentro de este for, tengo que hacer otro for con el largo que devuelve el "children_Categories" 
@@ -88,6 +91,7 @@ async function AllCategories(){
     }
 
     for (let i = 0; i < arrayContenedorCategory4.length; i++) {
+        console.log("Primera vuelta: N°" + i + "de " + arrayContenedorCategory4.length);
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory4[i].categoryID_4}`)
         const respuestaData = apiCallCategoryDetail?.data?.children_categories
         /* Dentro de este for, tengo que hacer otro for con el largo que devuelve el "children_Categories" 
@@ -105,6 +109,7 @@ async function AllCategories(){
     }
 
     for (let i = 0; i < arrayContenedorCategory5.length; i++) {
+        console.log("Primera vuelta: N°" + i + "de " + arrayContenedorCategory5.length);
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory5[i].categoryID_5}`)
         const respuestaData = apiCallCategoryDetail?.data?.children_categories
         /* Dentro de este for, tengo que hacer otro for con el largo que devuelve el "children_Categories" 
@@ -122,6 +127,7 @@ async function AllCategories(){
     }
 
     for (let i = 0; i < arrayContenedorCategory6.length; i++) {
+        console.log("Primera vuelta: N°" + i + "de " + arrayContenedorCategory6.length);
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory6[i].categoryID_6}`)
         const respuestaData = apiCallCategoryDetail?.data?.children_categories
         /* Dentro de este for, tengo que hacer otro for con el largo que devuelve el "children_Categories" 
