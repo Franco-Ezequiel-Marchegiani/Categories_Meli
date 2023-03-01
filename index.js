@@ -52,16 +52,125 @@ async function AllCategories(){
             
         }
     }
-    const largoTotalArray = arrayContenedorCategory1.concat(arrayContenedorCategory2)
+
+    for (let i = 0; i < arrayContenedorCategory2.length; i++) {
+        const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory2[i].categoryID_2}`)
+        const respuestaData = apiCallCategoryDetail?.data?.children_categories
+        /* Dentro de este for, tengo que hacer otro for con el largo que devuelve el "children_Categories" 
+        Plasmar la info en arrays separados, y dsp hacer un for con el largo total, y poner toda la data ahí, creando los objetos y todo*/
+        //console.log(respuestaData);
+        for (let indexChikito = 0; indexChikito < respuestaData?.length; indexChikito++) {
+            //const element = array[indexChikito];
+            arrayContenedorCategory3.push({
+                categoryID_3: respuestaData[indexChikito]?.id,
+                categoryName_3: respuestaData[indexChikito]?.name,
+                itemsPorCategoria3: respuestaData[indexChikito]?.total_items_in_this_category
+            })
+            
+        }
+    }
+
+    for (let i = 0; i < arrayContenedorCategory3.length; i++) {
+        const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory3[i].categoryID_3}`)
+        const respuestaData = apiCallCategoryDetail?.data?.children_categories
+        /* Dentro de este for, tengo que hacer otro for con el largo que devuelve el "children_Categories" 
+        Plasmar la info en arrays separados, y dsp hacer un for con el largo total, y poner toda la data ahí, creando los objetos y todo*/
+        //console.log(respuestaData);
+        for (let indexChikito = 0; indexChikito < respuestaData?.length; indexChikito++) {
+            //const element = array[indexChikito];
+            arrayContenedorCategory4.push({
+                categoryID_4: respuestaData[indexChikito]?.id,
+                categoryName_4: respuestaData[indexChikito]?.name,
+                itemsPorCategoria4: respuestaData[indexChikito]?.total_items_in_this_category
+            })
+            
+        }
+    }
+
+    for (let i = 0; i < arrayContenedorCategory4.length; i++) {
+        const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory4[i].categoryID_4}`)
+        const respuestaData = apiCallCategoryDetail?.data?.children_categories
+        /* Dentro de este for, tengo que hacer otro for con el largo que devuelve el "children_Categories" 
+        Plasmar la info en arrays separados, y dsp hacer un for con el largo total, y poner toda la data ahí, creando los objetos y todo*/
+        //console.log(respuestaData);
+        for (let indexChikito = 0; indexChikito < respuestaData?.length; indexChikito++) {
+            //const element = array[indexChikito];
+            arrayContenedorCategory5.push({
+                categoryID_5: respuestaData[indexChikito]?.id,
+                categoryName_5: respuestaData[indexChikito]?.name,
+                itemsPorCategoria5: respuestaData[indexChikito]?.total_items_in_this_category
+            })
+            
+        }
+    }
+
+    for (let i = 0; i < arrayContenedorCategory5.length; i++) {
+        const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory5[i].categoryID_5}`)
+        const respuestaData = apiCallCategoryDetail?.data?.children_categories
+        /* Dentro de este for, tengo que hacer otro for con el largo que devuelve el "children_Categories" 
+        Plasmar la info en arrays separados, y dsp hacer un for con el largo total, y poner toda la data ahí, creando los objetos y todo*/
+        //console.log(respuestaData);
+        for (let indexChikito = 0; indexChikito < respuestaData?.length; indexChikito++) {
+            //const element = array[indexChikito];
+            arrayContenedorCategory6.push({
+                categoryID_6: respuestaData[indexChikito]?.id,
+                categoryName_6: respuestaData[indexChikito]?.name,
+                itemsPorCategoria6: respuestaData[indexChikito]?.total_items_in_this_category
+            })
+            
+        }
+    }
+
+    for (let i = 0; i < arrayContenedorCategory6.length; i++) {
+        const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory6[i].categoryID_6}`)
+        const respuestaData = apiCallCategoryDetail?.data?.children_categories
+        /* Dentro de este for, tengo que hacer otro for con el largo que devuelve el "children_Categories" 
+        Plasmar la info en arrays separados, y dsp hacer un for con el largo total, y poner toda la data ahí, creando los objetos y todo*/
+        //console.log(respuestaData);
+        for (let indexChikito = 0; indexChikito < respuestaData?.length; indexChikito++) {
+            //const element = array[indexChikito];
+            arrayContenedorCategory7.push({
+                categoryID_7: respuestaData[indexChikito]?.id,
+                categoryName_7: respuestaData[indexChikito]?.name,
+                itemsPorCategoria7: respuestaData[indexChikito]?.total_items_in_this_category
+            })
+            
+        }
+    }
+
+    const fusionPrimerSegundoArray = arrayContenedorCategory1.concat(arrayContenedorCategory2)
+    const fusionTercerArray = fusionPrimerSegundoArray.concat(arrayContenedorCategory3)
+    const fusionCuartoArray = fusionTercerArray.concat(arrayContenedorCategory4)
+    const fusionQuintoArray = fusionCuartoArray.concat(arrayContenedorCategory5)
+    const fusionSextoArray = fusionQuintoArray.concat(arrayContenedorCategory6)
+    const largoTotalArray = fusionSextoArray.concat(arrayContenedorCategory7)
+    
+    
     console.log("Largo total:");
-    console.log(largoTotalArray);
+    console.log(fusionPrimerSegundoArray);
+    
     for (let i = 0; i < largoTotalArray.length; i++) {
         arrayContenedorTotal.push({
             categoryID_1: arrayContenedorCategory1[i]?.categoryID_1,
             categoryName_1: arrayContenedorCategory1[i]?.categoryName_1,
             categoryID_2: arrayContenedorCategory2[i]?.categoryID_2,
             categoryName_2: arrayContenedorCategory2[i]?.categoryName_2,
-            itemsPorCategoria2: arrayContenedorCategory2[i]?.itemsPorCategoria2
+            itemsPorCategoria2: arrayContenedorCategory2[i]?.itemsPorCategoria2,
+            categoryID_3: arrayContenedorCategory3[i]?.categoryID_3,
+            categoryName_3: arrayContenedorCategory3[i]?.categoryName_3,
+            itemsPorCategoria3: arrayContenedorCategory3[i]?.itemsPorCategoria3,
+            categoryID_4: arrayContenedorCategory4[i]?.categoryID_4,
+            categoryName_4: arrayContenedorCategory4[i]?.categoryName_4,
+            itemsPorCategoria4: arrayContenedorCategory4[i]?.itemsPorCategoria4,
+            categoryID_5: arrayContenedorCategory5[i]?.categoryID_5,
+            categoryName_5: arrayContenedorCategory5[i]?.categoryName_5,
+            itemsPorCategoria5: arrayContenedorCategory5[i]?.itemsPorCategoria5,
+            categoryID_6: arrayContenedorCategory6[i]?.categoryID_6,
+            categoryName_6: arrayContenedorCategory6[i]?.categoryName_6,
+            itemsPorCategoria6: arrayContenedorCategory6[i]?.itemsPorCategoria6,
+            categoryID_7: arrayContenedorCategory7[i]?.categoryID_7,
+            categoryName_7: arrayContenedorCategory7[i]?.categoryName_7,
+            itemsPorCategoria7: arrayContenedorCategory7[i]?.itemsPorCategoria7,
         })
     }
 
