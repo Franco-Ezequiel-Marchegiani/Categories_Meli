@@ -79,8 +79,8 @@ async function AllCategories(){
                 categoryName_3: respuestaData[indexChikito]?.name,                                                  //Se extrae el Nombre y se almacena en el atributo "categoryName" para uso interno
                 itemsPorCategoria3: respuestaData[indexChikito]?.total_items_in_this_category,                      //Cantidad de items por categoría (mepa que se va a ir)
                 catalog_domain3: responseCatalog_domain?.settings?.catalog_domain,
-                root3: `${arrayContenedorCategory1[i].categoryID_1} > ${arrayContenedorCategory2[i].categoryID_2} > ${respuestaData[indexChikito]?.id}`,          //Enrutamiento de MLA (id's)
-                rootName3: `${arrayContenedorCategory1[i].categoryName_1} > ${arrayContenedorCategory2[i].categoryName_2} > ${respuestaData[indexChikito]?.name}`,    //Enrutamiento de Nombres
+                root3: `${arrayContenedorCategory2[i].root2} > ${respuestaData[indexChikito]?.id}`,          //Enrutamiento de MLA (id's)
+                rootName3: `${arrayContenedorCategory2[i].rootName2} > ${respuestaData[indexChikito]?.name}`,    //Enrutamiento de Nombres
             })
             
         }
@@ -103,8 +103,8 @@ async function AllCategories(){
                 categoryName_4: respuestaData[indexChikito]?.name,                                                  //Se extrae el Nombre y se almacena en el atributo "categoryName" para uso interno
                 itemsPorCategoria4: respuestaData[indexChikito]?.total_items_in_this_category,                      //Cantidad de items por categoría (mepa que se va a ir)
                 catalog_domain4: responseCatalog_domain?.settings?.catalog_domain,
-                root4: `${arrayContenedorCategory1[i].categoryID_1} > ${arrayContenedorCategory2[i].categoryID_2} > ${arrayContenedorCategory3[i].categoryID_3} > ${respuestaData[indexChikito]?.id}`,          //Enrutamiento de MLA (id's)
-                rootName4: `${arrayContenedorCategory1[i].categoryName_1} > ${arrayContenedorCategory2[i].categoryName_2} > ${arrayContenedorCategory3[i].categoryName_3} > ${respuestaData[indexChikito]?.name}`,    //Enrutamiento de Nombres
+                root4: `${arrayContenedorCategory3[i].root3} > ${respuestaData[indexChikito]?.id}`,          //Enrutamiento de MLA (id's)
+                rootName4: `${arrayContenedorCategory3[i].root3} > ${respuestaData[indexChikito]?.name}`,    //Enrutamiento de Nombres
             })
             
         }
@@ -127,8 +127,8 @@ async function AllCategories(){
                 categoryName_5: respuestaData[indexChikito]?.name,                                                  //Se extrae el Nombre y se almacena en el atributo "categoryName" para uso interno
                 itemsPorCategoria5: respuestaData[indexChikito]?.total_items_in_this_category,                      //Cantidad de items por categoría (mepa que se va a ir)
                 catalog_domain5: responseCatalog_domain?.settings?.catalog_domain,
-                root5: `${arrayContenedorCategory1[i].categoryID_1} > ${arrayContenedorCategory2[i].categoryID_2} > ${arrayContenedorCategory3[i].categoryID_3} > ${arrayContenedorCategory4[i].categoryID_4} > ${respuestaData[indexChikito]?.id}`,          //Enrutamiento de MLA (id's)
-                rootName5: `${arrayContenedorCategory1[i].categoryName_1} > ${arrayContenedorCategory2[i].categoryName_2} > ${arrayContenedorCategory3[i].categoryName_3} > ${arrayContenedorCategory4[i].categoryName_4} > ${respuestaData[indexChikito]?.name}`,    //Enrutamiento de Nombres
+                root5: `${arrayContenedorCategory4[i].root4} > ${respuestaData[indexChikito]?.id}`,          //Enrutamiento de MLA (id's)
+                rootName5: `${arrayContenedorCategory4[i].root4} > ${respuestaData[indexChikito]?.name}`,    //Enrutamiento de Nombres
             })
             
         }
@@ -151,8 +151,8 @@ async function AllCategories(){
                 categoryName_6: respuestaData[indexChikito]?.name,                                                  //Se extrae el Nombre y se almacena en el atributo "categoryName" para uso interno
                 itemsPorCategoria6: respuestaData[indexChikito]?.total_items_in_this_category,                      //Cantidad de items por categoría (mepa que se va a ir)
                 catalog_domain6: responseCatalog_domain?.settings?.catalog_domain,
-                root6: `${arrayContenedorCategory1[i].categoryID_1} > ${arrayContenedorCategory2[i].categoryID_2} > ${arrayContenedorCategory3[i].categoryID_3} > ${arrayContenedorCategory4[i].categoryID_4} >${arrayContenedorCategory5[i].categoryID_5} > ${respuestaData[indexChikito]?.id}`,          //Enrutamiento de MLA (id's)
-                rootName6: `${arrayContenedorCategory1[i].categoryName_1} > ${arrayContenedorCategory2[i].categoryName_2} > ${arrayContenedorCategory3[i].categoryName_3} > ${arrayContenedorCategory4[i].categoryName_4} >${arrayContenedorCategory5[i].categoryName_5} > ${respuestaData[indexChikito]?.name}`,    //Enrutamiento de Nombres
+                root6: `${arrayContenedorCategory5[i].root5} > ${respuestaData[indexChikito]?.id}`,          //Enrutamiento de MLA (id's)
+                rootName6: `${arrayContenedorCategory5[i].root5} > ${respuestaData[indexChikito]?.name}`,    //Enrutamiento de Nombres
             })
             
         }
@@ -177,14 +177,13 @@ async function AllCategories(){
                 categoryName_7: respuestaData[indexChikito]?.name,                                                  //Se extrae el Nombre y se almacena en el atributo "categoryName" para uso interno
                 itemsPorCategoria7: respuestaData[indexChikito]?.total_items_in_this_category,                      //Cantidad de items por categoría (mepa que se va a ir)
                 catalog_domain7: responseCatalog_domain?.settings?.catalog_domain,
-                root7: `${arrayContenedorCategory1[i].categoryID_1} > ${arrayContenedorCategory2[i].categoryID_2} > ${arrayContenedorCategory3[i].categoryID_3} > ${arrayContenedorCategory4[i].categoryID_4} >${arrayContenedorCategory5[i].categoryID_5} > ${arrayContenedorCategory6[i].categoryID_6} > ${respuestaData[indexChikito]?.id}`,          //Enrutamiento de MLA (id's)
-                rootName7: `${arrayContenedorCategory1[i].categoryName_1} > ${arrayContenedorCategory2[i].categoryName_2} > ${arrayContenedorCategory3[i].categoryName_3} > ${arrayContenedorCategory4[i].categoryName_4} >${arrayContenedorCategory5[i].categoryName_5} > ${arrayContenedorCategory6[i].categoryName_6} > ${respuestaData[indexChikito]?.name}`,    //Enrutamiento de Nombres
+                root7: `${arrayContenedorCategory6[i].root6} > ${respuestaData[indexChikito]?.id}`,          //Enrutamiento de MLA (id's)
+                rootName7: `${arrayContenedorCategory6[i].root6} > ${respuestaData[indexChikito]?.name}`,    //Enrutamiento de Nombres
             })
             
         }
     }
 
-    /* Para */
     const fusionPrimerSegundoArray = arrayContenedorCategory1.concat(arrayContenedorCategory2)
     const fusionTercerArray = fusionPrimerSegundoArray.concat(arrayContenedorCategory3)
     const fusionCuartoArray = fusionTercerArray.concat(arrayContenedorCategory4)
@@ -201,12 +200,55 @@ async function AllCategories(){
             categoryID_1: arrayContenedorCategory1[i]?.categoryID_1,
             categoryName_1: arrayContenedorCategory1[i]?.categoryName_1,
             catalog_domain1:arrayContenedorCategory1[i]?.catalog_domain1,
+
             categoryID_2:arrayContenedorCategory2[i]?.categoryID_2,
+            categoryName_2:arrayContenedorCategory2[i]?.categoryName_2,
             itemsPorCategoria2:arrayContenedorCategory2[i]?.itemsPorCategoria2,
+            catalog_domain2:arrayContenedorCategory2[i]?.catalog_domain2,
             root2:arrayContenedorCategory2[i]?.root2,
+            rootName2:arrayContenedorCategory2[i]?.rootName2,
+
+            categoryID_3:arrayContenedorCategory3[i]?.categoryID_3,
+            categoryName_3:arrayContenedorCategory3[i]?.categoryName_3,
+            itemsPorCategoria3:arrayContenedorCategory3[i]?.itemsPorCategoria3,
+            catalog_domain3:arrayContenedorCategory3[i]?.catalog_domain3,
+            root3:arrayContenedorCategory3[i]?.root3,
+
+            rootName4:arrayContenedorCategory4[i]?.rootName4,
+            categoryID_4:arrayContenedorCategory4[i]?.categoryID_4,
+            categoryName_4:arrayContenedorCategory4[i]?.categoryName_4,
+            itemsPorCategoria4:arrayContenedorCategory4[i]?.itemsPorCategoria4,
+            catalog_domain4:arrayContenedorCategory4[i]?.catalog_domain4,
+            root4:arrayContenedorCategory4[i]?.root4,
+            rootName4:arrayContenedorCategory4[i]?.rootName4,
+
+            categoryID_5:arrayContenedorCategory5[i]?.categoryID_5,
+            categoryName_5:arrayContenedorCategory5[i]?.categoryName_5,
+            itemsPorCategoria5:arrayContenedorCategory5[i]?.itemsPorCategoria5,
+            catalog_domain5:arrayContenedorCategory5[i]?.catalog_domain5,
+            root5:arrayContenedorCategory5[i]?.root5,
+            rootName5:arrayContenedorCategory5[i]?.rootName5,
+
+            categoryID_6:arrayContenedorCategory6[i]?.categoryID_6,
+            categoryName_6:arrayContenedorCategory6[i]?.categoryName_6,
+            itemsPorCategoria6:arrayContenedorCategory6[i]?.itemsPorCategoria6,
+            catalog_domain6:arrayContenedorCategory6[i]?.catalog_domain6,
+            root6:arrayContenedorCategory6[i]?.root6,
+            rootName6:arrayContenedorCategory6[i]?.rootName6,
+
+            categoryID_7:arrayContenedorCategory7[i]?.categoryID_7,
+            categoryName_7:arrayContenedorCategory7[i]?.categoryName_7,
+            itemsPorCategoria7:arrayContenedorCategory7[i]?.itemsPorCategoria7,
+            catalog_domain7:arrayContenedorCategory7[i]?.catalog_domain7,
+            root7:arrayContenedorCategory7[i]?.root7,
+            rootName7:arrayContenedorCategory7[i]?.rootName7,
+
             timestamp: dateToday(now).date,
         })
     }
+
+    //sequelize
+    
     /* Crear un nuevo campo que se llame "pathRoot"  
     Añadir la categoría "catalog_domain" (está en settings)
     MLA5725>MLA4711
@@ -219,7 +261,7 @@ async function AllCategories(){
     Hacer lo mismo con el catalog_domain ( < )
     */
 
-    await exportSheet(process.env.GOOGLE_ID,informationTokensStatus,"main",arrayContenedorTotal)
+    await exportSheet(process.env.GOOGLE_ID,informationTokensStatus,"test",arrayContenedorTotal)
     
     return arrayContenedorTotal;
 }
