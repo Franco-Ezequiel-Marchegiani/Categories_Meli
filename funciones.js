@@ -1,7 +1,10 @@
 import  { GoogleSpreadsheet } from 'google-spreadsheet';
 import axios from 'axios';
 import fs, {promises} from 'fs'; 
-import {readFile} from 'fs/promises'
+import {readFile} from 'fs/promises';
+import dotenv from "dotenv";
+
+dotenv.config({path: "./.env"})
 
 const exportSheet = async (googleID, credencialesSheet, title, data) =>{
     const documento = new GoogleSpreadsheet(googleID);
@@ -59,5 +62,31 @@ const llamadaAPI = async(methodType, url, head, params)=>{
     return apiCall;
 }
 
+const CategoriesBucle = async(numeroVuelta,i, url, primerArrayContenedor, categoryID_PrimerArray, categoryName_PrimerArray, segundoArrayContenedor)=>{
+        console.log(`${numeroVuelta} Script, vuelta: N°` + i + "de " + primerArrayContenedor.length);
+        
+        console.log(url + "/" + categoryID_PrimerArray);
+        const apiCallCategoryDetail = await llamadaAPI("get", `${url + categoryID_PrimerArray}`) //Primero recorro cada categoría del componente padre
+        const respuestaData = apiCallCategoryDetail.data?.children_categories                                                        //Luego accedo a sus categorías hijas
+        
+
+        for (let indexChikito = 0; indexChikito < respuestaData.length; indexChikito++) {                                           //Luego recorro c/categoría hija 
+
+            const callCatalog_domain = await llamadaAPI("get", `${url + respuestaData[indexChikito]?.id}`)         //Hago una llamada con el id de cada categoría hija para sacar el catalog_domain
+            const responseCatalog_domain = callCatalog_domain.data;
+            
+
+            segundoArrayContenedor.push({
+                categoryID: respuestaData[indexChikito]?.id,                                                      //Se obtiene el MLA
+                categoryName: respuestaData[indexChikito]?.name,                                                  //Se extrae el Nombre y se almacena en el atributo "categoryName" para uso interno
+                itemsPorCategoria: respuestaData[indexChikito]?.total_items_in_this_category,                      //Cantidad de items por categoría (mepa que se va a ir)
+                catalog_domain: responseCatalog_domain?.settings?.catalog_domain,
+                root: `${categoryID_PrimerArray} > ${respuestaData[indexChikito]?.id}`,          //Enrutamiento de MLA (id's)
+                rootName: `${categoryName_PrimerArray} > ${respuestaData[indexChikito]?.name}`,    //Enrutamiento de Nombres
+            })
+            
+        }
+}
+
 //Exportamos un objeto, y adentro mencionamos las variables con funciones las cuales exportamos
-export {exportSheet, dateToday, llamadaAPI}
+export {exportSheet, dateToday, llamadaAPI,CategoriesBucle}
