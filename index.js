@@ -19,6 +19,7 @@ async function AllCategories(){
     
     const respuestaAPI = apiCall.data
     console.log(apiCall);
+    console.log(respuestaAPI.length);
     for (let i = 0; i < respuestaAPI.length; i++) {
         const apiCallCatalog_domain = await llamadaAPI("get", `${process.env.CATEGORY + respuestaAPI[i].id}`)
         const respuestaData = apiCallCatalog_domain.data
@@ -134,7 +135,8 @@ async function AllCategories(){
 
     for (let i = 0; i < arrayContenedorCategory5.length; i++) {
         console.log("Quinto Script vuelta: N°" + i + "de " + arrayContenedorCategory5.length);
-        const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory5[i].categoryID_5}`)
+        console.log(arrayContenedorCategory5[i].categoryID_5);
+        const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory5[i]?.categoryID_5}`)
         const respuestaData = apiCallCategoryDetail?.data?.children_categories
         
         //console.log(respuestaData);
@@ -193,7 +195,7 @@ async function AllCategories(){
     console.log("Largo total:");
     console.log(fusionPrimerSegundoArray);
     
-    for (let i = 0; i < largoTotalArray.length; i++) {
+    for (let i = 0; i < 3; i++) {
         arrayContenedorTotal.push({
             categoryID_1: arrayContenedorCategory1[i]?.categoryID_1,
             categoryName_1: arrayContenedorCategory1[i]?.categoryName_1,
@@ -244,6 +246,12 @@ async function AllCategories(){
             timestamp: dateToday(now).date,
         })
     }
+    await exportSheet(process.env.GOOGLE_ID,informationTokensStatus,"main",arrayContenedorTotal)
+    const jsonString = JSON.stringify(arrayContenedorTotal);
+    return arrayContenedorTotal;
+}
+
+AllCategories()
 
     //sequelize
     
@@ -256,13 +264,6 @@ async function AllCategories(){
     Accesorios para Vehículos
     Hacer lo mismo con el catalog_domain ( < )
     */
-
-    await exportSheet(process.env.GOOGLE_ID,informationTokensStatus,"main",arrayContenedorTotal)
-    
-    return arrayContenedorTotal;
-}
-
-AllCategories()
 
 /* const apiCall = await axios({
         method: "get",
@@ -313,7 +314,7 @@ AllCategories()
     //const CategoriesBucle = async(primerArrayContenedor, categoryID_PrimerArray, categoryName_PrimerArray, segundoArrayContenedor, categoryID, categoryName,itemsPorCategoria, catalog_domain, root,rootName )=>{
     
     /* 
-     for (let i = 0; i < arrayContenedorCategory2.length; i++) {
+     for (let i = 0; i < 3; i++) {
         console.log("Segundo Script vuelta: N°" + i + "de " + arrayContenedorCategory2.length);
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory2[i].categoryID_2}`)
         const respuestaData = apiCallCategoryDetail?.data?.children_categories
@@ -337,7 +338,7 @@ AllCategories()
         }
     }
 
-    for (let i = 0; i < arrayContenedorCategory3.length; i++) {
+    for (let i = 0; i < 3; i++) {
         console.log("Tercer Script vuelta: N°" + i + "de " + arrayContenedorCategory3.length);
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory3[i].categoryID_3}`)
         const respuestaData = apiCallCategoryDetail?.data?.children_categories
@@ -361,7 +362,7 @@ AllCategories()
         }
     }
 
-    for (let i = 0; i < arrayContenedorCategory4.length; i++) {
+    for (let i = 0; i < 3; i++) {
         console.log("Cuarto Script vuelta: N°" + i + "de " + arrayContenedorCategory4.length);
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory4[i].categoryID_4}`)
         const respuestaData = apiCallCategoryDetail?.data?.children_categories
@@ -385,7 +386,7 @@ AllCategories()
         }
     }
 
-    for (let i = 0; i < arrayContenedorCategory5.length; i++) {
+    for (let i = 0; i < 3; i++) {
         console.log("Quinto Script vuelta: N°" + i + "de " + arrayContenedorCategory5.length);
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory5[i].categoryID_5}`)
         const respuestaData = apiCallCategoryDetail?.data?.children_categories
@@ -412,7 +413,7 @@ AllCategories()
     import axios from 'axios';
 import  { GoogleSpreadsheet } from 'google-spreadsheet';
 
-    for (let i = 0; i < arrayContenedorCategory6.length; i++) {
+    for (let i = 0; i < 3; i++) {
         console.log("Último Script vuelta: N°" + i + "de " + arrayContenedorCategory6.length);
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory6[i].categoryID_6}`)
         const respuestaData = apiCallCategoryDetail?.data?.children_categories
