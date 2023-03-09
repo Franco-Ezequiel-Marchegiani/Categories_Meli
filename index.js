@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import informationTokensStatus from './credentials/credenciales_definitivas.json' assert { type: "json" };
-import { exportSheet, dateToday, llamadaAPI, CategoriesBucle } from './funciones.js';
+import { exportSheet, dateToday, llamadaAPI } from './funciones.js';
 
 dotenv.config({path: "./.env"})
 
@@ -31,111 +31,163 @@ async function AllCategories(){
         }) 
     }
 
-        /* Parámetros:
-        1°String indicando qué número de array está recorriendo
-        2°Indice para recorrer el for
-        3°El primer array, que da pie al próximo nivel de categorías (es decir, es la categoría anterior, o "padre")
-        4°El Category ID de la categoría "padre"
-        5°El Category Name de la categoría "padre" 
-        6°El segundo array con categorías (hijo)
-        */
-    //Primer nivel
+    /* Acá hacer un for con los id del category padre, para obtener las categorías hijas con el siguiente endpoint:
+     https://api.mercadolibre.com/categories/MLA79242
+     */
+    //Crear arrays para c/level y dsp concatenar los arrays
+    
     for (let i = 0; i < arrayContenedorCategory1.length; i++) {
-        await CategoriesBucle("Primer", i, process.env.CATEGORY, arrayContenedorCategory1, arrayContenedorCategory1[i].categoryID_1, arrayContenedorCategory1[i].categoryName_1, arrayContenedorCategory2);
-    }
-    console.log(arrayContenedorCategory2);
-    const arrayContenedor2 = arrayContenedorCategory2.map(e =>{
-        return {
-            categoryID_2: e.categoryID,
-            categoryName_2: e.categoryName,
-            itemsPorCategoria2: e.itemsPorCategoria,
-            catalog_domain2: e.catalog_domain,
-            root2: e.root,
-            rootName2: e.rootName,
-        }
-    })
-    console.log(arrayContenedor2);
-    //Segundo Nivel
-    for (let i = 0; i < arrayContenedorCategory2.length; i++) {
-        await CategoriesBucle("Segundo", i, process.env.CATEGORY, arrayContenedorCategory2, arrayContenedorCategory2[i].categoryID, arrayContenedorCategory2[i].categoryName, arrayContenedorCategory3);
-    }
-    const arrayContenedor3 = arrayContenedorCategory3.map(e =>{
-        return {
-            categoryID_3: e.categoryID,
-            categoryName_3: e.categoryName,
-            itemsPorCategoria3: e.itemsPorCategoria,
-            catalog_domain3: e.catalog_domain,
-            root3: e.root,
-            rootName3: e.rootName,
-        }
-    })
-    //Tercer Nivel
-    for (let i = 0; i < arrayContenedorCategory3.length; i++) {
-        await CategoriesBucle("Tercer", i, process.env.CATEGORY, arrayContenedorCategory3, arrayContenedorCategory3[i].categoryID, arrayContenedorCategory3[i].categoryName, arrayContenedorCategory4);
-    }
-    const arrayContenedor4 = arrayContenedorCategory4.map(e =>{
-        return {
-            categoryID_4: e.categoryID,
-            categoryName_4: e.categoryName,
-            itemsPorCategoria4: e.itemsPorCategoria,
-            catalog_domain4: e.catalog_domain,
-            root4: e.root,
-            rootName4: e.rootName,
-        }
-    })
-    //Cuarto Nivel
-    for (let i = 0; i < arrayContenedorCategory4.length; i++) {
-        await CategoriesBucle("Cuarto", i, process.env.CATEGORY, arrayContenedorCategory4, arrayContenedorCategory4[i].categoryID, arrayContenedorCategory4[i].categoryName, arrayContenedorCategory5);
-    }
-    const arrayContenedor5 = arrayContenedorCategory5.map(e =>{
-        return {
-            categoryID_5: e.categoryID,
-            categoryName_5: e.categoryName,
-            itemsPorCategoria5: e.itemsPorCategoria,
-            catalog_domain5: e.catalog_domain,
-            root5: e.root,
-            rootName5: e.rootName,
-        }
-    })
-    //Quinto Nivel
-    for (let i = 0; i < arrayContenedorCategory5.length; i++) {
-        await CategoriesBucle("Quinto", i, process.env.CATEGORY, arrayContenedorCategory5, arrayContenedorCategory5[i].categoryID, arrayContenedorCategory5[i].categoryName, arrayContenedorCategory6);
-    }
-    const arrayContenedor6 = arrayContenedorCategory6.map(e =>{
-        return {
-            categoryID_6: e.categoryID,
-            categoryName_6: e.categoryName,
-            itemsPorCategoria6: e.itemsPorCategoria,
-            catalog_domain6: e.catalog_domain,
-            root6: e.root,
-            rootName6: e.rootName,
-        }
-    })
-    //Sexto Nivel
-    for (let i = 0; i < arrayContenedorCategory6.length; i++) {
-        await CategoriesBucle("Sexto", i, process.env.CATEGORY, arrayContenedorCategory6, arrayContenedorCategory6[i].categoryID, arrayContenedorCategory6[i].categoryName, arrayContenedorCategory7);
-    }
-    const arrayContenedor7 = arrayContenedorCategory7.map(e =>{
-        return {
-            categoryID_7: e.categoryID,
-            categoryName_7: e.categoryName,
-            itemsPorCategoria7: e.itemsPorCategoria,
-            catalog_domain7: e.catalog_domain,
-            root7: e.root,
-            rootName7: e.rootName,
-        }
-    })
-       
-    console.log(arrayContenedorCategory3);
-    console.log("ESTÁ FUNCIONANDO");
-   
+        console.log("Primer Script, vuelta: N°" + i + "de " + arrayContenedorCategory1.length);
+        const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory1[i].categoryID_1}`) //Primero recorro cada categoría del componente padre
+        const respuestaData = apiCallCategoryDetail.data.children_categories                                                        //Luego accedo a sus categorías hijas
+        
 
-    const fusionPrimerSegundoArray = arrayContenedorCategory1.concat(arrayContenedor2)
-    const fusionTercerArray = fusionPrimerSegundoArray.concat(arrayContenedor3)
-    const fusionCuartoArray = fusionTercerArray.concat(arrayContenedor4)
-    const fusionQuintoArray = fusionCuartoArray.concat(arrayContenedor5)
-    const fusionSextoArray = fusionQuintoArray.concat(arrayContenedor6)
-    const largoTotalArray = fusionSextoArray.concat(arrayContenedor7)
+        for (let indexChikito = 0; indexChikito < respuestaData.length; indexChikito++) {                                           //Luego recorro c/categoría hija 
+
+            const callCatalog_domain = await llamadaAPI("get", `${process.env.CATEGORY + respuestaData[indexChikito]?.id}`)         //Hago una llamada con el id de cada categoría hija para sacar el catalog_domain
+            const responseCatalog_domain = callCatalog_domain.data;
+            
+
+            arrayContenedorCategory2.push({
+                categoryID_2: respuestaData[indexChikito]?.id,                                                      //Se obtiene el MLA
+                categoryName_2: respuestaData[indexChikito]?.name,                                                  //Se extrae el Nombre y se almacena en el atributo "categoryName" para uso interno
+                itemsPorCategoria2: respuestaData[indexChikito]?.total_items_in_this_category,                      //Cantidad de items por categoría (mepa que se va a ir)
+                catalog_domain2: responseCatalog_domain?.settings?.catalog_domain,
+                root2: `${arrayContenedorCategory1[i].categoryID_1} > ${respuestaData[indexChikito]?.id}`,          //Enrutamiento de MLA (id's)
+                rootName2: `${arrayContenedorCategory1[i].categoryName_1} > ${respuestaData[indexChikito]?.name}`,    //Enrutamiento de Nombres
+            })
+            
+        }
+    }
+    
+    for (let i = 0; i < arrayContenedorCategory2.length; i++) {
+        console.log("Segundo Script vuelta: N°" + i + "de " + arrayContenedorCategory2.length);
+        const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory2[i].categoryID_2}`)
+        const respuestaData = apiCallCategoryDetail?.data?.children_categories
+        
+        //console.log(respuestaData);
+        for (let indexChikito = 0; indexChikito < respuestaData.length; indexChikito++) {                                           //Luego recorro c/categoría hija 
+
+            const callCatalog_domain = await llamadaAPI("get", `${process.env.CATEGORY + respuestaData[indexChikito]?.id}`)         //Hago una llamada con el id de cada categoría hija para sacar el catalog_domain
+            const responseCatalog_domain = callCatalog_domain.data;
+            
+
+            arrayContenedorCategory3.push({
+                categoryID_3: respuestaData[indexChikito]?.id,                                                      //Se obtiene el MLA
+                categoryName_3: respuestaData[indexChikito]?.name,                                                  //Se extrae el Nombre y se almacena en el atributo "categoryName" para uso interno
+                itemsPorCategoria3: respuestaData[indexChikito]?.total_items_in_this_category,                      //Cantidad de items por categoría (mepa que se va a ir)
+                catalog_domain3: responseCatalog_domain?.settings?.catalog_domain,
+                root3: `${arrayContenedorCategory2[i].root2} > ${respuestaData[indexChikito]?.id}`,          //Enrutamiento de MLA (id's)
+                rootName3: `${arrayContenedorCategory2[i].rootName2} > ${respuestaData[indexChikito]?.name}`,    //Enrutamiento de Nombres
+            })
+            
+        }
+    }
+
+    for (let i = 0; i < arrayContenedorCategory3.length; i++) {
+        console.log("Tercer Script vuelta: N°" + i + "de " + arrayContenedorCategory3.length);
+        const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory3[i].categoryID_3}`)
+        const respuestaData = apiCallCategoryDetail?.data?.children_categories
+        
+        //console.log(respuestaData);
+        for (let indexChikito = 0; indexChikito < respuestaData.length; indexChikito++) {                                           //Luego recorro c/categoría hija 
+
+            const callCatalog_domain = await llamadaAPI("get", `${process.env.CATEGORY + respuestaData[indexChikito]?.id}`)         //Hago una llamada con el id de cada categoría hija para sacar el catalog_domain
+            const responseCatalog_domain = callCatalog_domain.data;
+            
+
+            arrayContenedorCategory4.push({
+                categoryID_4: respuestaData[indexChikito]?.id,                                                      //Se obtiene el MLA
+                categoryName_4: respuestaData[indexChikito]?.name,                                                  //Se extrae el Nombre y se almacena en el atributo "categoryName" para uso interno
+                itemsPorCategoria4: respuestaData[indexChikito]?.total_items_in_this_category,                      //Cantidad de items por categoría (mepa que se va a ir)
+                catalog_domain4: responseCatalog_domain?.settings?.catalog_domain,
+                root4: `${arrayContenedorCategory3[i].root3} > ${respuestaData[indexChikito]?.id}`,          //Enrutamiento de MLA (id's)
+                rootName4: `${arrayContenedorCategory3[i].root3} > ${respuestaData[indexChikito]?.name}`,    //Enrutamiento de Nombres
+            })
+            
+        }
+    }
+
+    for (let i = 0; i < arrayContenedorCategory4.length; i++) {
+        console.log("Cuarto Script vuelta: N°" + i + "de " + arrayContenedorCategory4.length);
+        const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory4[i].categoryID_4}`)
+        const respuestaData = apiCallCategoryDetail?.data?.children_categories
+        
+        //console.log(respuestaData);
+        for (let indexChikito = 0; indexChikito < respuestaData.length; indexChikito++) {                                           //Luego recorro c/categoría hija 
+
+            const callCatalog_domain = await llamadaAPI("get", `${process.env.CATEGORY + respuestaData[indexChikito]?.id}`)         //Hago una llamada con el id de cada categoría hija para sacar el catalog_domain
+            const responseCatalog_domain = callCatalog_domain.data;
+            
+
+            arrayContenedorCategory5.push({
+                categoryID_5: respuestaData[indexChikito]?.id,                                                      //Se obtiene el MLA
+                categoryName_5: respuestaData[indexChikito]?.name,                                                  //Se extrae el Nombre y se almacena en el atributo "categoryName" para uso interno
+                itemsPorCategoria5: respuestaData[indexChikito]?.total_items_in_this_category,                      //Cantidad de items por categoría (mepa que se va a ir)
+                catalog_domain5: responseCatalog_domain?.settings?.catalog_domain,
+                root5: `${arrayContenedorCategory4[i].root4} > ${respuestaData[indexChikito]?.id}`,          //Enrutamiento de MLA (id's)
+                rootName5: `${arrayContenedorCategory4[i].root4} > ${respuestaData[indexChikito]?.name}`,    //Enrutamiento de Nombres
+            })
+            
+        }
+    }
+
+    for (let i = 0; i < arrayContenedorCategory5.length; i++) {
+        console.log("Quinto Script vuelta: N°" + i + "de " + arrayContenedorCategory5.length);
+        const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory5[i].categoryID_5}`)
+        const respuestaData = apiCallCategoryDetail?.data?.children_categories
+        
+        //console.log(respuestaData);
+        for (let indexChikito = 0; indexChikito < respuestaData.length; indexChikito++) {                                           //Luego recorro c/categoría hija 
+
+            const callCatalog_domain = await llamadaAPI("get", `${process.env.CATEGORY + respuestaData[indexChikito]?.id}`)         //Hago una llamada con el id de cada categoría hija para sacar el catalog_domain
+            const responseCatalog_domain = callCatalog_domain.data;
+            
+
+            arrayContenedorCategory6.push({
+                categoryID_6: respuestaData[indexChikito]?.id,                                                      //Se obtiene el MLA
+                categoryName_6: respuestaData[indexChikito]?.name,                                                  //Se extrae el Nombre y se almacena en el atributo "categoryName" para uso interno
+                itemsPorCategoria6: respuestaData[indexChikito]?.total_items_in_this_category,                      //Cantidad de items por categoría (mepa que se va a ir)
+                catalog_domain6: responseCatalog_domain?.settings?.catalog_domain,
+                root6: `${arrayContenedorCategory5[i].root5} > ${respuestaData[indexChikito]?.id}`,          //Enrutamiento de MLA (id's)
+                rootName6: `${arrayContenedorCategory5[i].root5} > ${respuestaData[indexChikito]?.name}`,    //Enrutamiento de Nombres
+            })
+            
+        }
+    }
+
+    
+
+    for (let i = 0; i < arrayContenedorCategory6.length; i++) {
+        console.log("Último Script vuelta: N°" + i + "de " + arrayContenedorCategory6.length);
+        const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory6[i].categoryID_6}`)
+        const respuestaData = apiCallCategoryDetail?.data?.children_categories
+
+        //console.log(respuestaData);
+        for (let indexChikito = 0; indexChikito < respuestaData.length; indexChikito++) {                                           //Luego recorro c/categoría hija 
+
+            const callCatalog_domain = await llamadaAPI("get", `${process.env.CATEGORY + respuestaData[indexChikito]?.id}`)         //Hago una llamada con el id de cada categoría hija para sacar el catalog_domain
+            const responseCatalog_domain = callCatalog_domain.data;
+            
+
+            arrayContenedorCategory7.push({
+                categoryID_7: respuestaData[indexChikito]?.id,                                                      //Se obtiene el MLA
+                categoryName_7: respuestaData[indexChikito]?.name,                                                  //Se extrae el Nombre y se almacena en el atributo "categoryName" para uso interno
+                itemsPorCategoria7: respuestaData[indexChikito]?.total_items_in_this_category,                      //Cantidad de items por categoría (mepa que se va a ir)
+                catalog_domain7: responseCatalog_domain?.settings?.catalog_domain,
+                root7: `${arrayContenedorCategory6[i].root6} > ${respuestaData[indexChikito]?.id}`,          //Enrutamiento de MLA (id's)
+                rootName7: `${arrayContenedorCategory6[i].root6} > ${respuestaData[indexChikito]?.name}`,    //Enrutamiento de Nombres
+            })
+            
+        }
+    }
+
+    const fusionPrimerSegundoArray = arrayContenedorCategory1.concat(arrayContenedorCategory2)
+    const fusionTercerArray = fusionPrimerSegundoArray.concat(arrayContenedorCategory3)
+    const fusionCuartoArray = fusionTercerArray.concat(arrayContenedorCategory4)
+    const fusionQuintoArray = fusionCuartoArray.concat(arrayContenedorCategory5)
+    const fusionSextoArray = fusionQuintoArray.concat(arrayContenedorCategory6)
+    const largoTotalArray = fusionSextoArray.concat(arrayContenedorCategory7)
     
     
     console.log("Largo total:");
@@ -159,8 +211,8 @@ async function AllCategories(){
             itemsPorCategoria3:arrayContenedorCategory3[i]?.itemsPorCategoria3,
             catalog_domain3:arrayContenedorCategory3[i]?.catalog_domain3,
             root3:arrayContenedorCategory3[i]?.root3,
-            rootName3:arrayContenedorCategory3[i]?.rootName3,
 
+            rootName4:arrayContenedorCategory4[i]?.rootName4,
             categoryID_4:arrayContenedorCategory4[i]?.categoryID_4,
             categoryName_4:arrayContenedorCategory4[i]?.categoryName_4,
             itemsPorCategoria4:arrayContenedorCategory4[i]?.itemsPorCategoria4,
@@ -194,9 +246,18 @@ async function AllCategories(){
     }
 
     //sequelize
+    
+    /* Crear un nuevo campo que se llame "pathRoot"  
+    Añadir la categoría "catalog_domain" (está en settings)
+    MLA5725>MLA4711
+    MLA5725>MLA417044
+    Por otro lado, hacer lo mismo pero con los nombres de las categorías
+    Accesorios para Vehículos>Acc. para Motos y Cuatriciclos
+    Accesorios para Vehículos
+    Hacer lo mismo con el catalog_domain ( < )
+    */
 
- 
-    await exportSheet(process.env.GOOGLE_ID,informationTokensStatus,"Prueba",arrayContenedorTotal)
+    await exportSheet(process.env.GOOGLE_ID,informationTokensStatus,"main",arrayContenedorTotal)
     
     return arrayContenedorTotal;
 }
@@ -348,7 +409,8 @@ AllCategories()
         }
     }
 
-    
+    import axios from 'axios';
+import  { GoogleSpreadsheet } from 'google-spreadsheet';
 
     for (let i = 0; i < arrayContenedorCategory6.length; i++) {
         console.log("Último Script vuelta: N°" + i + "de " + arrayContenedorCategory6.length);
