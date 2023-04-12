@@ -87,6 +87,75 @@ const CategoriesBucle = async(numeroVuelta,i, url, primerArrayContenedor, catego
             
         }
 }
+const savingData = async(arrayConDatos, nombreArchivoCSV)=>{
+    let headers = Object.keys(arrayConDatos[0] || {}).join(' | ');
 
+    let respuestaData = arrayConDatos?.map ((elementos) => { //solo accedemos a id y name de la respuesta a traves de map
+            return {
+                categoryID_1: elementos?.categoryID_1,
+                categoryName_1: elementos?.categoryName_1,
+                catalog_domain1: elementos?.catalog_domain1,
+                categoryID_2: elementos?.categoryID_2,
+                categoryName_2: elementos?.categoryName_2,
+                itemsPorCategoria2: elementos?.itemsPorCategoria2,
+                catalog_domain2: elementos?.catalog_domain2,
+                root2: elementos?.root2,
+                rootName2: elementos?.rootName2,
+                categoryID_3: elementos?.categoryID_3,
+                categoryName_3: elementos?.categoryName_3,
+                itemsPorCategoria3: elementos?.itemsPorCategoria3,
+                catalog_domain3: elementos?.catalog_domain3,
+                root3: elementos?.root3,
+                rootName4: elementos?.rootName4,
+                categoryID_4: elementos?.categoryID_4,
+                categoryName_4: elementos?.categoryName_4,
+                itemsPorCategoria4: elementos?.itemsPorCategoria4,
+                catalog_domain4: elementos?.catalog_domain4,
+                root4: elementos?.root4,
+                rootName4: elementos?.rootName4,
+                categoryID_5: elementos?.categoryID_5,
+                categoryName_5: elementos?.categoryName_5,
+                itemsPorCategoria5: elementos?.itemsPorCategoria5,
+                catalog_domain5: elementos?.catalog_domain5,
+                root5: elementos?.root5,
+                rootName5: elementos?.rootName5,
+                categoryID_6: elementos?.categoryID_6,
+                categoryName_6: elementos?.categoryName_6,
+                itemsPorCategoria6: elementos?.itemsPorCategoria6,
+                catalog_domain6: elementos?.catalog_domain6,
+                root6: elementos?.root6,
+                rootName6: elementos?.rootName6,
+                categoryID_7: elementos?.categoryID_7,
+                categoryName_7: elementos?.categoryName_7,
+                itemsPorCategoria7: elementos?.itemsPorCategoria7,
+                catalog_domain7: elementos?.catalog_domain7,
+                root7: elementos?.root7,
+                rootName7: elementos?.rootName7,
+                idPromotion: elementos?.idPromotion,
+                typePromotion: elementos?.typePromotion,
+                deadline_date: elementos?.deadline_date,
+                name: elementos?.name,
+                benefits_type: elementos?.benefits_type,
+                benefits_meliPercent: elementos?.benefits_meliPercent,
+                benefits_sellerPercent: elementos?.benefits_sellerPercent,
+                idItem: elementos?.idItem,
+                status: elementos?.status,
+                price: elementos?.price,
+                original_price: elementos?.original_price,
+                offer_id: elementos?.offer_id,
+                meli_percentage: elementos?.meli_percentage,
+                seller_percentage: elementos?.seller_percentage,
+                start_date: elementos?.start_date,
+                end_date: elementos?.end_date,
+                Timestamp: elementos?.timestamp,
+            }
+    }).map((elementos) => Object?.values(elementos)?.join('|')) // tomamos solos los valores y los separamos con comas
+    .join('\n'); // le damos un salto de linea
+    //En este array sumamos los headers, un salto de linea, y los productos
+
+    //En este array sumamos un salto de linea, y los productos 
+    const arrayInCSVFormat = [headers + '\n',respuestaData];
+    await fs.promises.writeFile(`./data/${nombreArchivoCSV}.csv`, arrayInCSVFormat);
+}
 //Exportamos un objeto, y adentro mencionamos las variables con funciones las cuales exportamos
-export {exportSheet, dateToday, llamadaAPI,CategoriesBucle}
+export {exportSheet, dateToday, llamadaAPI,CategoriesBucle, savingData}
