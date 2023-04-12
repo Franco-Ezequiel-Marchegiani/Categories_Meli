@@ -38,7 +38,7 @@ async function AllCategories(){
     //Crear arrays para c/level y dsp concatenar los arrays
     
     for (let i = 0; i < arrayContenedorCategory1.length; i++) {
-        console.log("Primer Script, vuelta: N°" + i + "de " + arrayContenedorCategory1.length);
+        console.log("Primer Script, vuelta: N°" + i + " de " + arrayContenedorCategory1.length);
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory1[i].categoryID_1}`) //Primero recorro cada categoría del componente padre
         const respuestaData = apiCallCategoryDetail.data.children_categories                                                        //Luego accedo a sus categorías hijas
         
@@ -62,7 +62,7 @@ async function AllCategories(){
     }
     
     for (let i = 0; i < arrayContenedorCategory2.length; i++) {
-        console.log("Segundo Script vuelta: N°" + i + "de " + arrayContenedorCategory2.length);
+        console.log("Segundo Script vuelta: N°" + i + " de " + arrayContenedorCategory2.length);
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory2[i].categoryID_2}`)
         const respuestaData = apiCallCategoryDetail?.data?.children_categories
         
@@ -86,7 +86,7 @@ async function AllCategories(){
     }
 
     for (let i = 0; i < arrayContenedorCategory3.length; i++) {
-        console.log("Tercer Script vuelta: N°" + i + "de " + arrayContenedorCategory3.length);
+        console.log("Tercer Script vuelta: N°" + i + " de " + arrayContenedorCategory3.length);
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory3[i].categoryID_3}`)
         const respuestaData = apiCallCategoryDetail?.data?.children_categories
         
@@ -110,7 +110,7 @@ async function AllCategories(){
     }
 
     for (let i = 0; i < arrayContenedorCategory4.length; i++) {
-        console.log("Cuarto Script vuelta: N°" + i + "de " + arrayContenedorCategory4.length);
+        console.log("Cuarto Script vuelta: N°" + i + " de " + arrayContenedorCategory4.length);
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory4[i].categoryID_4}`)
         const respuestaData = apiCallCategoryDetail?.data?.children_categories
         
@@ -134,7 +134,7 @@ async function AllCategories(){
     }
 
     for (let i = 0; i < arrayContenedorCategory5.length; i++) {
-        console.log("Quinto Script vuelta: N°" + i + "de " + arrayContenedorCategory5.length);
+        console.log("Quinto Script vuelta: N°" + i + " de " + arrayContenedorCategory5.length);
         console.log(arrayContenedorCategory5[i].categoryID_5);
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory5[i]?.categoryID_5}`)
         const respuestaData = apiCallCategoryDetail?.data?.children_categories
@@ -161,7 +161,7 @@ async function AllCategories(){
     
 
     for (let i = 0; i < arrayContenedorCategory6.length; i++) {
-        console.log("Último Script vuelta: N°" + i + "de " + arrayContenedorCategory6.length);
+        console.log("Último Script vuelta: N°" + i + " de " + arrayContenedorCategory6.length);
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory6[i].categoryID_6}`)
         const respuestaData = apiCallCategoryDetail?.data?.children_categories
 
@@ -198,6 +198,8 @@ async function AllCategories(){
     
     for (let i = 0; i < largoTotalArray.length; i++) {
         arrayContenedorTotal.push({
+            id: i,
+
             categoryID_1: arrayContenedorCategory1[i]?.categoryID_1,
             categoryName_1: arrayContenedorCategory1[i]?.categoryName_1,
             catalog_domain1:arrayContenedorCategory1[i]?.catalog_domain1,
@@ -258,6 +260,7 @@ async function AllCategories(){
 }
 
 AllCategories()
+
 
     //sequelize
     

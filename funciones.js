@@ -92,6 +92,7 @@ const savingData = async(arrayConDatos, nombreArchivoCSV)=>{
 
     let respuestaData = arrayConDatos?.map ((elementos) => { //solo accedemos a id y name de la respuesta a traves de map
             return {
+                id: elementos?.id,
                 categoryID_1: elementos?.categoryID_1,
                 categoryName_1: elementos?.categoryName_1,
                 catalog_domain1: elementos?.catalog_domain1,
