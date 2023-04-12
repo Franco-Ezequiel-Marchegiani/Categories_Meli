@@ -90,7 +90,7 @@ async function AllCategories(){
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory3[i].categoryID_3}`)
         const respuestaData = apiCallCategoryDetail?.data?.children_categories
         
-        //console.log(respuestaData);
+        console.log(respuestaData);
         for (let indexChikito = 0; indexChikito < respuestaData.length; indexChikito++) {                                           //Luego recorro c/categoría hija 
 
             const callCatalog_domain = await llamadaAPI("get", `${process.env.CATEGORY + respuestaData[indexChikito]?.id}`)         //Hago una llamada con el id de cada categoría hija para sacar el catalog_domain
@@ -196,7 +196,7 @@ async function AllCategories(){
     console.log("Largo total:");
     console.log(fusionPrimerSegundoArray);
     
-    for (let i = 0; i < largoTotalArray.length; i++) {
+    for (let i = 0; i < fusionCuartoArray.length; i++) {
         arrayContenedorTotal.push({
             id: i,
 
@@ -249,6 +249,55 @@ async function AllCategories(){
             timestamp: dateToday(now).date,
         })
     }
+/* Le hice esta pregunta:
+
+So far so good, now I need to send the data from a csv file to a table in postgres.
+How can I do this?
+The table name is "ml_all_categories", the csv file is 'CategoriesData'
+And the values of the table are:
+id VARCHAR(255) PRIMARY KEY,
+    categoryID_1 VARCHAR(100),
+	categoryName_1 VARCHAR(100),
+	catalog_domain1 VARCHAR(100),
+	categoryID_2 VARCHAR(200),
+	categoryName_2 VARCHAR(200),
+	itemsPorCategoria2 VARCHAR(200),
+	catalog_domain2 VARCHAR(200),
+	root2 VARCHAR(200),
+	rootName2 VARCHAR(200),
+	categoryID_3 VARCHAR(255),
+	categoryName_3 VARCHAR(255),
+	itemsPorCategoria3 VARCHAR(255),
+	catalog_domain3 VARCHAR(255),
+	root3 VARCHAR(255),
+	rootName4 VARCHAR(255),
+	categoryID_4 VARCHAR(255),
+	categoryName_4 VARCHAR(255),
+	itemsPorCategoria4 VARCHAR(255),
+	catalog_domain4 VARCHAR(255),
+	root4 VARCHAR(255),
+	categoryID_5 VARCHAR(255),
+	categoryName_5 VARCHAR(255),
+	itemsPorCategoria5 VARCHAR(255),
+	catalog_domain5 VARCHAR(255),
+	root5 VARCHAR(255),
+	rootName5 VARCHAR(255),
+	categoryID_6 VARCHAR(255),
+	categoryName_6 VARCHAR(255),
+	itemsPorCategoria6 VARCHAR(255),
+	catalog_domain6 VARCHAR(255),
+	root6 VARCHAR(255),
+	rootName6 VARCHAR(255),
+	categoryID_7 VARCHAR(255),
+	categoryName_7 VARCHAR(255),
+	itemsPorCategoria7 VARCHAR(255),
+	catalog_domain7 VARCHAR(255),
+	root7 VARCHAR(255),
+	rootName7 VARCHAR(255),
+	timestamp DATE
+
+How can I send the information to the table?
+*/
     await savingData(arrayContenedorTotal, "CategoriesData");
 
     await exportSheet(process.env.GOOGLE_ID,informationTokensStatus,"Prueba",arrayContenedorTotal)
