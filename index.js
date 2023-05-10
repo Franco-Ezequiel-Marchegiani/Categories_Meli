@@ -2,18 +2,28 @@ import dotenv from "dotenv";
 import informationTokensStatus from './credentials/credenciales_definitivas.json' assert { type: "json" };
 import { exportSheet, dateToday, llamadaAPI, savingData } from './funciones.js';
 import fs, { fdatasync } from "fs"
+import pkg from 'pg';
+const { Pool } = pkg;
 dotenv.config({path: "./.env"})
 
+/* Establecemos la conexión a la base de datos */
+const pool = new Pool({
+    user: "admin",
+    host: "192.168.1.231",
+    database: "disbyte_pro",
+    password: "wPZh2potbm7HjEcyxCeu",
+    port: 5432
+  });
 async function AllCategories(){
     const now = new Date();
-    const arrayContenedorTotal   = [];
-    const arrayContenedorCategory1   = [];
-    const arrayContenedorCategory2   = [];
-    const arrayContenedorCategory3   = [];
-    const arrayContenedorCategory4   = [];
-    const arrayContenedorCategory5   = [];
-    const arrayContenedorCategory6   = [];
-    const arrayContenedorCategory7   = [];
+    const arrayContenedorTotal      = [];
+    const arrayContenedorCategory1  = [];
+    const arrayContenedorCategory2  = [];
+    const arrayContenedorCategory3  = [];
+    const arrayContenedorCategory4  = [];
+    const arrayContenedorCategory5  = [];
+    const arrayContenedorCategory6  = [];
+    const arrayContenedorCategory7  = [];
 
     const apiCall = await llamadaAPI("get", process.env.ALL_CATEGORIES)
     
@@ -60,7 +70,6 @@ async function AllCategories(){
             
         }
     }
-    
     for (let i = 0; i < arrayContenedorCategory2.length; i++) {
         console.log("Segundo Script vuelta: N°" + i + " de " + arrayContenedorCategory2.length);
         const apiCallCategoryDetail = await llamadaAPI("get", `${process.env.CATEGORY + arrayContenedorCategory2[i].categoryID_2}`)
@@ -192,11 +201,10 @@ async function AllCategories(){
     const fusionSextoArray = fusionQuintoArray.concat(arrayContenedorCategory6)
     const largoTotalArray = fusionSextoArray.concat(arrayContenedorCategory7)
     
-    
     console.log("Largo total:");
-    console.log(fusionPrimerSegundoArray);
+    //console.log(fusionPrimerSegundoArray);
     
-    for (let i = 0; i < fusionCuartoArray.length; i++) {
+    for (let i = 0; i < fusionPrimerSegundoArray.length; i++) {
         arrayContenedorTotal.push({
             id: i,
 
@@ -211,44 +219,101 @@ async function AllCategories(){
             root2:arrayContenedorCategory2[i]?.root2,
             rootName2:arrayContenedorCategory2[i]?.rootName2,
 
-            categoryID_3:arrayContenedorCategory3[i]?.categoryID_3,
-            categoryName_3:arrayContenedorCategory3[i]?.categoryName_3,
-            itemsPorCategoria3:arrayContenedorCategory3[i]?.itemsPorCategoria3,
-            catalog_domain3:arrayContenedorCategory3[i]?.catalog_domain3,
-            root3:arrayContenedorCategory3[i]?.root3,
+            categoryID_3:rrayContenedorCategory3[i]?.categoryID_3,
+            categoryName_3:rrayContenedorCategory3[i]?.categoryName_3,
+            itemsPorCategoria3:rrayContenedorCategory3[i]?.itemsPorCategoria3,
+            catalog_domain3:rrayContenedorCategory3[i]?.catalog_domain3,
+            root3:rrayContenedorCategory3[i]?.root3,
 
-            rootName4:arrayContenedorCategory4[i]?.rootName4,
+            rootName4: arrayContenedorCategory4[i]?.rootName4,
             categoryID_4:arrayContenedorCategory4[i]?.categoryID_4,
             categoryName_4:arrayContenedorCategory4[i]?.categoryName_4,
             itemsPorCategoria4:arrayContenedorCategory4[i]?.itemsPorCategoria4,
             catalog_domain4:arrayContenedorCategory4[i]?.catalog_domain4,
             root4:arrayContenedorCategory4[i]?.root4,
-            rootName4:arrayContenedorCategory4[i]?.rootName4,
+            //rootName4:arrayContenedorCategory4[i]?.rootName4,
 
-            categoryID_5:arrayContenedorCategory5[i]?.categoryID_5,
+            categoryID_5: arrayContenedorCategory5[i]?.categoryID_5,
             categoryName_5:arrayContenedorCategory5[i]?.categoryName_5,
             itemsPorCategoria5:arrayContenedorCategory5[i]?.itemsPorCategoria5,
             catalog_domain5:arrayContenedorCategory5[i]?.catalog_domain5,
             root5:arrayContenedorCategory5[i]?.root5,
             rootName5:arrayContenedorCategory5[i]?.rootName5,
 
-            categoryID_6:arrayContenedorCategory6[i]?.categoryID_6,
+            categoryID_6: arrayContenedorCategory6[i]?.categoryID_6,
             categoryName_6:arrayContenedorCategory6[i]?.categoryName_6,
             itemsPorCategoria6:arrayContenedorCategory6[i]?.itemsPorCategoria6,
             catalog_domain6:arrayContenedorCategory6[i]?.catalog_domain6,
             root6:arrayContenedorCategory6[i]?.root6,
             rootName6:arrayContenedorCategory6[i]?.rootName6,
 
-            categoryID_7:arrayContenedorCategory7[i]?.categoryID_7,
-            categoryName_7:arrayContenedorCategory7[i]?.categoryName_7,
-            itemsPorCategoria7:arrayContenedorCategory7[i]?.itemsPorCategoria7,
-            catalog_domain7:arrayContenedorCategory7[i]?.catalog_domain7,
-            root7:arrayContenedorCategory7[i]?.root7,
-            rootName7:arrayContenedorCategory7[i]?.rootName7,
+            categoryID_7: arrayContenedorCategory7[i]?.categoryID_7,
+            categoryName_7: arrayContenedorCategory7[i]?.categoryName_7,
+            itemsPorCategoria7: arrayContenedorCategory7[i]?.itemsPorCategoria7,
+            catalog_domain7: arrayContenedorCategory7[i]?.catalog_domain7,
+            root7: arrayContenedorCategory7[i]?.root7,
+            rootName7: arrayContenedorCategory7[i]?.rootName7,
 
             timestamp: dateToday(now).date,
         })
     }
+    await savingData(arrayContenedorTotal, "CategoriesData");
+
+    //Enviar la variable "arrayContenedorTotal" a la base de datos
+
+    
+    console.log(arrayContenedorTotal);
+
+    /* id, categoryID_1, categoryName_1, catalog_domain1, categoryID_2, categoryName_2, itemsPorCategoria2, catalog_domain2, root2, rootName2, 
+    categoryID_3, categoryName_3, itemsPorCategoria3, catalog_domain3, root3, rootName4, categoryID_4, categoryName_4, itemsPorCategoria4, catalog_domain4, 
+    root4, categoryID_5, categoryName_5, itemsPorCategoria5, catalog_domain5, root5, rootName5, categoryID_6, categoryName_6, itemsPorCategoria6, 
+    catalog_domain6, root6, rootName6, categoryID_7, categoryName_7, itemsPorCategoria7, catalog_domain7, root7, rootName7, timestamp */
+
+    async function insertarOfertas(Categorias) {
+        const query = `
+            INSERT INTO meli.ml_categories_tree (
+                id, categoryID_1, categoryName_1, catalog_domain1, categoryID_2, categoryName_2, itemsPorCategoria2, catalog_domain2, root2, rootName2, 
+                categoryID_3, categoryName_3, itemsPorCategoria3, catalog_domain3, root3, rootName4, categoryID_4, categoryName_4, itemsPorCategoria4, catalog_domain4, 
+                root4, categoryID_5, categoryName_5, itemsPorCategoria5, catalog_domain5, root5, rootName5, categoryID_6, categoryName_6, itemsPorCategoria6, 
+                catalog_domain6, root6, rootName6, categoryID_7, categoryName_7, itemsPorCategoria7, catalog_domain7, root7, rootName7, timestamp
+            )
+            VALUES (
+                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
+                $11, $12, $13, $14, $15, $16, $17, $18, $19, $20,
+                $21, $22, $23, $24, $25, $26, $27, $28, $29, $30,
+                $31, $32, $33, $34, $35, $36, $37, $38, $39, $40
+                )
+        `;
+        
+        /* RETURNING idPromotion */
+        try {
+          await pool.connect();
+          await pool.query('TRUNCATE TABLE meli.ml_categories_tree')
+          for (const categoria of Categorias) {
+            const { id, categoryID_1, categoryName_1, catalog_domain1, categoryID_2, categoryName_2, itemsPorCategoria2, catalog_domain2, root2, rootName2, categoryID_3, categoryName_3, itemsPorCategoria3, catalog_domain3, root3, rootName4, categoryID_4, categoryName_4, itemsPorCategoria4, catalog_domain4, root4, categoryID_5, categoryName_5, itemsPorCategoria5, catalog_domain5, root5, rootName5, categoryID_6, categoryName_6, itemsPorCategoria6, catalog_domain6, root6, rootName6, categoryID_7, categoryName_7, itemsPorCategoria7, catalog_domain7, root7, rootName7, timestamp } = categoria;
+            const result = await pool.query(query, [id, categoryID_1, categoryName_1, catalog_domain1, categoryID_2, categoryName_2, itemsPorCategoria2, catalog_domain2, root2, rootName2, categoryID_3, categoryName_3, itemsPorCategoria3, catalog_domain3, root3, rootName4, categoryID_4, categoryName_4, itemsPorCategoria4, catalog_domain4, root4, categoryID_5, categoryName_5, itemsPorCategoria5, catalog_domain5, root5, rootName5, categoryID_6, categoryName_6, itemsPorCategoria6, catalog_domain6, root6, rootName6, categoryID_7, categoryName_7, itemsPorCategoria7, catalog_domain7, root7, rootName7, timestamp]);
+            //console.log(`Oferta insertada con idPromotion: ${result.rows[0].idPromotion}`);
+          }
+          await pool.end();
+
+        } catch (error) {
+          console.error('Error al insertar Ofertas:', error);
+        } finally {
+          console.log("---------------------------------------->>>>> Pushing Data Base || Categories Tree");
+          pool.end();
+        }
+    } 
+    //Ejecutamos la función para enviar la data a la base de datos  
+    insertarOfertas(arrayContenedorTotal);
+    
+    //Linea de código para enviar información al sheet
+    //await exportSheet(process.env.GOOGLE_ID,informationTokensStatus,"Prueba",arrayContenedorTotal)
+
+    return arrayContenedorTotal;
+}
+
+AllCategories()
+
 /* Le hice esta pregunta:
 
 So far so good, now I need to send the data from a csv file to a table in postgres.
@@ -256,7 +321,7 @@ How can I do this?
 The table name is "ml_all_categories", the csv file is 'CategoriesData'
 And the values of the table are:
 id VARCHAR(255) PRIMARY KEY,
-    categoryID_1 VARCHAR(100),
+    categoryID_2 VARCHAR(100),
 	categoryName_1 VARCHAR(100),
 	catalog_domain1 VARCHAR(100),
 	categoryID_2 VARCHAR(200),
@@ -298,17 +363,6 @@ id VARCHAR(255) PRIMARY KEY,
 
 How can I send the information to the table?
 */
-    await savingData(arrayContenedorTotal, "CategoriesData");
-
-    await exportSheet(process.env.GOOGLE_ID,informationTokensStatus,"Prueba",arrayContenedorTotal)
-    const jsonString = JSON.stringify(arrayContenedorTotal);
-    fs.writeFile("prueba.json",jsonString, "utf8", (err, data)=>{
-        err ? console.log(err) : console.log("Todo Okey pana");
-    })
-    return arrayContenedorTotal;
-}
-
-AllCategories()
 
 
     //sequelize

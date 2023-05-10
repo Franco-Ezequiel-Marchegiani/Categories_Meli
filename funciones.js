@@ -150,7 +150,7 @@ const savingData = async(arrayConDatos, nombreArchivoCSV)=>{
                 end_date: elementos?.end_date,
                 Timestamp: elementos?.timestamp,
             }
-    }).map((elementos) => Object?.values(elementos)?.join('|')) // tomamos solos los valores y los separamos con comas
+    }).map((elementos) => Object?.values(elementos)?.join(' | ')) // tomamos solos los valores y los separamos con comas
     .join('\n'); // le damos un salto de linea
     //En este array sumamos los headers, un salto de linea, y los productos
 
